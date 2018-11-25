@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
+	<link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="Scripts/jquery-2.1.3.min.js"></script>
+	<script src="Scripts/html2canvas.min.js"></script>
+
+    <style>
+        
+
+        #grafico {
+            position: relative;
+            height: 300px;
+            border-left: 2px solid #000000;
+            border-bottom: 2px solid #000000;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .riga {
+            position: absolute;
+            left: 0;
+            height: 1px;
+            background-color: gray;
+            width: 100%;
+        }
+
+            .riga div {
+                float: left;
+                margin: -8px 0 0 -40px;
+            }
+
+
+        table {
+            width: 60%;
+            background-color: white;
+            color: #000;
+            margin: 1em auto;
+        }
+
+
+            table tr:nth-child(2n) {
+                background-color: #D8EED8;
+            }
+
+            table tr:nth-child(2n+1) {
+                background-color: #BFDFFF;
+            }
+
+            table td {
+                text-align: center;
+                border-bottom: 1px solid #CDCDCD;
+                padding: 6px;
+            }
+
+        .column {
+            position: absolute;
+            width: 16%;
+            bottom: 0;
+            background-color: #003366;
+            margin-left: 5%;
+        }
+
+        .column div {
+            margin-top: -20px;
+            height: 20px;
+        }
+		
+		
+    </style>
+
+    <script type="text/javascript">
+
+        function viewGraph() {
+            $('.column').css('height', '0');
+            $('table tr').each(function (index) {
+                var ha = $(this).children('td').eq(1).text();
+                $('#col' + index).animate({ height: ha }, 1500).html("<div>" + ha + "</div>");
+            });
+        }
+        $(document).ready(function () {
+            viewGraph();
+        });
+		
+		function getScreenshot(){
+		
+		html2canvas(document.querySelector("#dataTable") ,{
+			onrendered: function(canvas){
+			$('#printScreen').html('');
+			$('#printScreen').append(canvas);
+			
+			$("#teste").attr('href' , canvas.toDataURL("images/png") );
+			$("#teste").attr('download', 'teste file.png' );
+			$("#teste")[0].click();
+			
+			
+			}
+		});
+		}
+		
+		function getScreenshot2(){
+		
+		html2canvas(document.querySelector("#grafico"),{
+			onrendered: function(canvas){
+			$('#printScreen').html('');
+			$('#printScreen').append(canvas);
+			
+			$("#teste2").attr('href' , canvas.toDataURL("images/png") );
+			$("#teste2").attr('download', 'teste file.png' );
+			$("#teste2")[0].click();
+			
+			}
+		});
+		}
+		
+		
+
+
+    </script>
+</head>
+<body>
+
+    <div id="container">
+	
+        <div id="dataTable" class="col-md-6 col-xs-12">
+
+            <table>
+			<thead>
+                <th colspan='3'>DataTable</th>
+				</thead>
+                <tbody>
+                    <tr>
+                        <td>A</td>
+                        <td>80%</td>
+                        <td style="background-color: #336699">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>B</td>
+                        <td>68%</td>
+                        <td style="background-color: #003366">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>C</td>
+                        <td>30%</td>
+                        <td style="background-color: #ff6600">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>D</td>
+                        <td>20%</td>
+                        <td style="background-color: #ffcc00">&nbsp;</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+			<button type="button" class="btn btn-primary" onclick="getScreenshot(); return false;">Print DataTable</button>
+			<a id="teste"></a>
+        </div>
+
+
+        
+            <div id="grafico" class="col-md-6 col-xs-12">
+			
+                <div class="riga" style="top: 25%">
+                    <div>75%</div>
+                </div>
+                <div class="riga" style="top: 50%">
+                    <div>50%</div>
+                </div>
+                <div class="riga" style="top: 75%">
+                    <div>25%</div>
+                </div>
+                <div id="col0" style="left: 0; background-color: #336699;" class="column"></div>
+                <div id="col1" style="left: 25%; background-color: #003366;" class="column"></div>
+                <div id="col2" style="left: 50%; background-color: #ff6600;" class="column"></div>
+                <div id="col3" style="left: 75%; background-color: #ffcc00;" class="column"></div>
+				
+				
+				<button type="button" class="btn btn-primary" onclick="getScreenshot2(); return false;">Print Gráfico</button>
+				<a id="teste2"></a>
+            </div>
+        
+		<div class="col-md-12 col-xs-12">
+			<div id="printScreen">teste</div>
+		</div>
+        
+    </div>
+</body>
+</html>
